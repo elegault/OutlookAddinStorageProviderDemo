@@ -1,0 +1,139 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <title></title>
+    <script src="../../../../../Scripts/jquery-1.9.1.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+    <link href="../../../../../Content/Office.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
+    
+<!--    <link rel="stylesheet" href="//appsforoffice.microsoft.com/fabric/1.0/fabric.min.css">
+    <link rel="stylesheet" href="//appsforoffice.microsoft.com/fabric/1.0/fabric.components.min.css">-->
+
+    <!-- To enable offline debugging using a local reference to Office.js, use:                        -->
+    <!-- <script src="../../Scripts/Office/MicrosoftAjax.js" type="text/javascript"></script>  -->
+    <!-- <script src="../../Scripts/Office/1/office.js" type="text/javascript"></script>  -->
+
+    <script src="../../../../../Content/Dropdown/Jquery.Dropdown.js"></script>
+    <script src="../../../../../Content/NavBar/Jquery.NavBar.js"></script>
+    <link href="../../../../../Content/css/fabric.components.css" rel="stylesheet" />
+    <link href="../../../../../Content/css/fabric.css" rel="stylesheet" />
+    <script src="../../../../../Scripts/xml2json.js"></script>
+    <link href="../App.css" rel="stylesheet" type="text/css" />
+    <script src="../App.js" type="text/javascript"></script>
+
+    <link href="Home.css" rel="stylesheet" type="text/css" />
+    <script src="Home.js" type="text/javascript"></script>
+    <style type="text/css">
+        .auto-style1 {
+            font-family: "Segoe UI Semilight WestEuropean", "Segoe UI Semilight", "Segoe WP Semilight", "Segoe UI", "Segoe WP", Tahoma, Arial, sans-serif;
+            box-sizing: border-box;
+            box-shadow: none;
+            border-radius: 0;
+            font-size: 12px;
+            color: #333;
+            height: 32px;
+            width: 15%;
+            min-width: 180px;
+            border: 1px solid #c8c8c8;
+            margin: 0;
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 6px;
+            padding-bottom: 8px;
+        }
+    </style>
+    </head>
+<body>
+    <div id="content-main">
+        <div class="padding">
+            <div class="ms-NavBar ms-bgColor-themeLighterAlt">
+                <div class="ms-NavBar-openMenu js-openMenu"></div>
+                <div class="ms-Overlay ms-bgColor-themeLighterAlt"></div>
+                <ul class="ms-NavBar-items">
+                    <li class="ms-NavBar-item">
+                        <a class="ms-NavBar-link" href="#" id="navBarCheckStorage">Load Add-in Settings</a>
+                    </li>
+                    <li class="ms-NavBar-item">
+                        <a class="ms-NavBar-link" href="#" id="navBarRetrieveStorage">Retrieve Storage</a>
+                    </li>
+                    <li class="ms-NavBar-item">
+                        <a class="ms-NavBar-link" href="#" id="navBarUpdateStorage">Update Storage</a>
+                    </li>
+                    <li class="ms-NavBar-item">
+                        <a class="ms-NavBar-link" href="#" id="navBarCreateFolder">Create Folder</a>
+                    </li>
+                    <li class="ms-NavBar-item">
+                        <a class="ms-NavBar-link" href="#" id="navBarClearSettings">Clear Settings</a>
+                    </li>
+                    <li class="ms-NavBar-item ms-NavBar-item--hasMenu">
+                        <a class="ms-NavBar-link" href="#">Menus?</a> <i class="ms-NavBar-chevronDown ms-Icon ms-Icon--chevronDown"></i>
+                        <ul class="ms-ContextualMenu">
+                            <li class="ms-ContextualMenu-item">
+                                <a class="ms-ContextualMenu-link" href="#" id="navBarTest">Cool!</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="ms-TextField">
+                <label class="ms-Label">Solution Storage FolderID</label> <input class="ms-TextField-field" id="folderID" type="text"><span class="ms-TextField-description">Click the 'Check Storage' button to retrieve any values stored in RoamingSettings.</span>
+            </div>
+            <div class="ms-TextField">
+                <label class="ms-Label">Storage Message ID</label> <input class="ms-TextField-field" id="messageID" type="text">
+            </div><span class="ms-TextField-description">Click the 'Check Storage' button to retrieve any values stored in RoamingSettings.</span>
+            <div class="ms-TextField">
+                <label class="ms-Label">                    
+                    Folder Name</label> <input class="ms-TextField-field" id="folderName" type="text"><span class="ms-TextField-description">Enter a name for the solution storage folder and click the 'Create Folder' button.</span>
+            </div>
+            <div class="ms-Toggle ms-Toggle--textLeft">
+                <span class="ms-Toggle-description">Set as hidden</span> <input class="ms-Toggle-input" id="hiddenFolder" type="checkbox"> <label class="ms-Toggle-field" for="hiddenFolder"><span class="ms-Label ms-Label--off">False</span> <span class="ms-Label ms-Label--on">True</span></label>
+            </div>
+            <p>
+                <div style="padding: 11px; border-style: solid; border-width: thin;">
+                    <label class="ms-font-l ms-fontWeight-semibold">Create Some Business Objects:</label>
+                    <div class="ms-TextField">
+                        <label class="ms-Label">
+                            Band Name</label> <input class="ms-TextField-field" id="artistName" type="text" value="Iron Maiden">
+                    </div>
+                    <div class="ms-Dropdown" tabindex="0">
+                        <label class="ms-Label">Genre</label>
+                        <i class="ms-Dropdown-caretDown ms-Icon ms-Icon--caretDown"></i>
+                        <select class="ms-Dropdown-select" id="genres">
+                            <option value="Heavy Metal">Heavy Metal</option>
+                            <option value="Blues">Blues</option>
+                            <option value="Classical">Classical</option>
+                            <option value="Jazz">Jazz</option>
+                            <option value="Rock">Rock</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <button class="ms-Button ms-Button--primary" id="addArtist"><span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Add Band</span> <span class="ms-Button-description"></span></button>
+                    <button class="ms-Button ms-Button--primary" id="clearArtists"><span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Clear Artists</span> <span class="ms-Button-description">Empties memory</span></button>
+                    <label class="ms-Label" id="numberOfBusinessObjects">#Business Objects in memory: 0</label>
+                    <div class="ms-TextField ms-TextField--multiline">
+                        <label class="ms-Label">Business Object XML:</label>
+                        <textarea class="ms-TextField-field" id="xmlText"></textarea>
+                    </div>
+                    <div><label class="ms-Label">Once you've created some in-memory business objects, click the 'Update Storage' button to store the serialized object XML in solution storage.</label>
+                    </div>
+                    <!-- <button class="ms-Button ms-Button--primary" id="updateStorage"><span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Update Storage</span> <span class="ms-Button-description"></span></button>
+                    <button class="ms-Button ms-Button--primary" id="retrieveStorage"><span class="ms-Button-icon"><i class="ms-Icon ms-Icon--plus"></i></span> <span class="ms-Button-label">Retrieve Storage</span> <span class="ms-Button-description"></span></button>-->
+                </div>
+            </p>
+            <div id="dialog-confirm-clearsettings" title="Clear settings?">
+                <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 50px 0;"></span><div class="ms-fontSize-m">You will have to create a new Solution Storage folder before you can store data again so all of your existing data in the solution storage message will be lost. Continue?</div>
+                </p>
+            </div>
+        </div>
+    </div>
+<!--    <div id="content-footer">
+        <div class="padding"></div>
+    </div>-->
+</body>
+</html>
