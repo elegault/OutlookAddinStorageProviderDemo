@@ -54,6 +54,7 @@
     <None Include="MailAddinStorageProviderManifest\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{8383a65a-da95-4b49-b0af-7b27420a6cba}</SharePointProjectItemId>
     </None>
+    <Content Include="MailAddinStorageProvider %28Azure%29.xml" />
     <Content Include="MailAddinStorageProviderManifest\MailAddinStorageProvider.xml">
       <OpcRelationship>manifest-oemanifest</OpcRelationship>
     </Content>
