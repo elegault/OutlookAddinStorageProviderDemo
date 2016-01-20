@@ -7,7 +7,7 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Storage Provider Demo" />
   <Description DefaultValue="Mail Addin Storage Provider Demo"/>
-  <IconUrl DefaultValue="~remoteAppUrl/Images/Rocker Logo Red 64x64.png" />
+  <IconUrl DefaultValue="~remoteAppUrl/Addins/Outlook/StorageProvider/Images/Rocker Logo Red 64x64.png" />
   <Hosts>
     <Host Name="Mailbox" />
   </Hosts>
