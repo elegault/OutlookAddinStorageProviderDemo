@@ -1,5 +1,4 @@
 ﻿/// <reference path="../App.js" />
-
 var item;
 var mailbox;
 var context;
@@ -46,18 +45,20 @@ function Band(bandname, musicalgenre) {
         });
     };
 })();
-var ewsCallbacks = (function() {
+var ewsCallbacks = (function () {
+    "use strict";
+
     var createSolutionStorageFolderCallback = function (asyncResult){
         //Use arguments[0].asyncContext to get at userContext parameter value (if used in caller)
         
         var result = null;
 
-        if (asyncResult == null) {
+        if (asyncResult === null) {
             app.showNotification('Error!', '[in createSolutionStorageFolderCallback]: null result');
             return 'error';
         }
 
-        if (asyncResult.error != null) {
+        if (asyncResult.error !== null) {
             app.showNotification('Error!', '[in createSolutionStorageFolderCallback]: ' + asyncResult.error.message);
             return 'error';
         } else {
@@ -78,12 +79,12 @@ var ewsCallbacks = (function() {
                         return 'error';
                     } else {
                         var errorType = prop.textContent;
-                        if (prop.textContent == "ErrorFolderExists") {
+                        if (prop.textContent === "ErrorFolderExists") {
                             //HIGH If folder exists, do what?
                             return 'error';
                         }
 
-                        if (prop.textContent == "NoError") {
+                        if (prop.textContent === "NoError") {
                             var foldersNode = null;
                             
                             foldersNode = responseDOM.filterNode("m:Folders")[0];
@@ -124,12 +125,12 @@ var ewsCallbacks = (function() {
         
         var result = null;
 
-        if (asyncResult == null) {
+        if (asyncResult === null) {
             app.showNotification('Error!', '[in createStorageItemCallback]: null result');
             result = 'error';
         }
 
-        if (asyncResult.error != null) {
+        if (asyncResult.error !== null) {
             app.showNotification('Error!', '[in createStorageItemCallback]: ' + asyncResult.error.message);
             result = 'error';
         } else {
@@ -149,7 +150,7 @@ var ewsCallbacks = (function() {
                         app.showNotification('Error!', '[in createStorageItemCallback]: Failed to parse response');
                         result = 'error';
                     } else {
-                        if (prop.textContent == "NoError") {
+                        if (prop.textContent === "NoError") {
                             var itemsNode = null;
                             var childNodesCnt;
 
@@ -196,12 +197,12 @@ var ewsCallbacks = (function() {
         //Use arguments[0].asyncContext to get at userContext parameter value (if used in caller)
 
         var result = null;
-        if (asyncResult == null) {
+        if (asyncResult === null) {
             app.showNotification('Error!', '[in getStorageItemCallback]: null result');
             return 'error';
         }
 
-        if (asyncResult.error != null) {
+        if (asyncResult.error !== null) {
             app.showNotification('Error!', '[in getStorageItemCallback]: ' + asyncResult.error.message);
             return 'error';
         } else {
@@ -222,7 +223,7 @@ var ewsCallbacks = (function() {
                         return 'error';
 
                     } else {
-                        if (prop.textContent == "NoError") {
+                        if (prop.textContent === "NoError") {
                             var bodyProp;
                             app.showNotification("Please wait...", "Retrieving XML from message body...");
                             try {
@@ -260,7 +261,7 @@ var ewsCallbacks = (function() {
     var updateFolderCallback = function(asyncResult) {
         //Use arguments[0].asyncContext to get at userContext parameter value (if used in caller)
 
-        if (asyncResult == null) {
+        if (asyncResult === null) {
             app.showNotification('Error!', '[in updateFolderCallback]: null result');
             return 'error';
         }
@@ -272,7 +273,7 @@ var ewsCallbacks = (function() {
             return 'success';        
         }
 
-        if (asyncResult.error != null) {
+        if (asyncResult.error !== null) {
             app.showNotification('Error!', '[in updateFolderCallback]: ' + asyncResult.error.message);
             return 'error';
         }
@@ -304,12 +305,12 @@ var ewsCallbacks = (function() {
 
         var result = null;
 
-        if (asyncResult == null) {
+        if (asyncResult === null) {
             app.showNotification('Error!', '[in updateItemCallback]: null result');
             return 'error';
         }
 
-        if (asyncResult.error != null) {
+        if (asyncResult.error !== null) {
             app.showNotification('Error!', '[in updateItemCallback]: ' + asyncResult.error.message);
             return 'error';
         }
@@ -325,7 +326,7 @@ var ewsCallbacks = (function() {
                         prop = responseDOM.filterNode("m:ResponseCode")[0];
                     }
 
-                    if (asyncResult.status == "succeeded") {                 
+                    if (asyncResult.status === "succeeded") {                 
                         result = 'success';
                     }
 
@@ -335,7 +336,7 @@ var ewsCallbacks = (function() {
                         app.showNotification('Error!', '[in updateItemCallback]: Failed to parse response');
                         return 'error';
                     } else {
-                        if (prop.textContent == "NoError") {                            
+                        if (prop.textContent === "NoError") {                            
                             result = 'success';
                         }
                         else {
@@ -362,7 +363,10 @@ var ewsCallbacks = (function() {
         updateItemCallback: updateItemCallback
     };
 })();
-var ewsRequests = (function() {
+var ewsRequests = (function () {
+
+    "use strict";
+
     var getCreateSolutionStorageFolderRequest = function(folderName, isHidden) {
         var request;
         var distinguishedFolderId;
@@ -557,6 +561,7 @@ var ewsRequests = (function() {
     
 })();
 var solutionStorage = (function () {
+    "use strict";
 
     var applicationData;
     var mailbox;
@@ -566,13 +571,12 @@ var solutionStorage = (function () {
     var solutionStorage = {};
     var solutionStorageMessageID;
     var usingHiddenFolder;
-    var settingsLoaded;
 
     applicationData = new ApplicationData();
 
     function ApplicationData(favoriteBands) {
-        //this.FavoriteBands = favoriteBands;
-        if (favoriteBands == undefined) {
+
+        if (favoriteBands === undefined) {
             this.FavoriteBands = new FavoriteBands();
             this.FavoriteBands.Band = [];
         } else {
@@ -618,11 +622,11 @@ var solutionStorage = (function () {
     };
     var createStorageItem = function () {
 
-        if (!solutionStorage.settingsLoaded == true) {
+        if (!solutionStorage.settingsLoaded === true) {
             getStorageIds();
         }
 
-        if (solutionStorage.solutionFolderID == undefined) {
+        if (solutionStorage.solutionFolderID === undefined) {
             app.showNotification("Uh-oh!", "The storage item folder hasn't been created yet. Click the 'Create Folder'  button.");
             return 'error';
         }
@@ -643,11 +647,11 @@ var solutionStorage = (function () {
         }                
     }
     var getStorageItem = function () {
-        if (!solutionStorage.settingsLoaded == true) {
+        if (!solutionStorage.settingsLoaded === true) {
             getStorageIds();
         }
 
-        if (solutionStorage.solutionStorageMessageID == undefined) {
+        if (solutionStorage.solutionStorageMessageID === undefined) {
             app.showNotification("Uh-oh!", "The storage item hasn't been created yet. First create some Business Objects below, then click the 'Update Storage' button.");
             return 'error';
         }
@@ -658,7 +662,7 @@ var solutionStorage = (function () {
         return 'success';
     };
     var saveMyAddInSettingsCallback = function(asyncResult) {
-        if (asyncResult.status == Office.AsyncResultStatus.Failed) {
+        if (asyncResult.status === Office.AsyncResultStatus.Failed) {
             // Handle the failure in asyncResult.error
             app.showNotification('Add-in Error:', asyncResult.error);
         }
@@ -673,16 +677,16 @@ var solutionStorage = (function () {
 
         }
 
-        if (solutionStorage.solutionFolderID != null && solutionStorage.solutionFolderID != undefined) 
+        if (solutionStorage.solutionFolderID !== null && solutionStorage.solutionFolderID !== undefined) 
             $("#folderID").prop('value', solutionStorage.solutionFolderID);
-        if (solutionStorage.solutionFolderName != null && solutionStorage.solutionFolderName != undefined)
+        if (solutionStorage.solutionFolderName !== null && solutionStorage.solutionFolderName !== undefined)
             $("#folderName").prop('value', solutionStorage.solutionFolderName);
-        if (solutionStorage.solutionStorageMessageID != null && solutionStorage.solutionStorageMessageID != undefined)
+        if (solutionStorage.solutionStorageMessageID !== null && solutionStorage.solutionStorageMessageID !== undefined)
             $("#messageID").prop('value', solutionStorage.solutionStorageMessageID);
     }
     var updateStorageItem = function () {
         
-        if (solutionStorage.solutionStorageMessageID == undefined || solutionStorage.applicationData == undefined) {
+        if (solutionStorage.solutionStorageMessageID === undefined || solutionStorage.applicationData === undefined) {
             return 'error';
         }
         {
@@ -719,11 +723,11 @@ function addArtist() {
     var artistName = $("#artistName").prop('value');
     var genre = $("#genres").prop('value');
     
-    if (artistName == undefined) {
+    if (artistName === undefined) {
         app.showNotification("Wait!", "You must enter an artist name.");        
         return;
     }
-    if (genre == undefined) {
+    if (genre === undefined) {
         app.showNotification("Wait!", "You must select a genre.");        
         return;
     }
@@ -736,7 +740,7 @@ function addArtist() {
         //Add band to bands
         solutionStorage.applicationData.FavoriteBands.Band.push(artist);
     } else {
-        if (solutionStorage.applicationData.FavoriteBands.Band == "") {
+        if (solutionStorage.applicationData.FavoriteBands.Band === "") {
             //For some reason the x2js.xml_str2json will set the root object as an empty string if there are no XML data nodes, so we need to initialize it as an array
             solutionStorage.applicationData.FavoriteBands.Band = [];
             solutionStorage.applicationData.FavoriteBands.Band.push(artist);
@@ -763,13 +767,13 @@ function checkStorage() {
         } else {
             $("#folderID").prop('value', solutionStorage.solutionFolderID);
         }
-        if (solutionStorage.solutionStorageMessageID == null || solutionStorage.solutionStorageMessageID == undefined) {
+        if (solutionStorage.solutionStorageMessageID === null || solutionStorage.solutionStorageMessageID === undefined) {
             $("#messageID").prop('value', "not set");
         } else {
             $("#messageID").prop('value', solutionStorage.solutionStorageMessageID);
         }
         
-        if (solutionStorage.solutionFolderName == null || solutionStorage.solutionFolderName == undefined) {
+        if (solutionStorage.solutionFolderName === null || solutionStorage.solutionFolderName === undefined) {
             $("#folderName").prop('value', "not set");
         } else {
             $("#folderName").prop('value', solutionStorage.solutionFolderName);
@@ -781,7 +785,7 @@ function checkStorage() {
     app.showNotification("Done!", "Settings retrieved.");
 }
 function clearArtists() {
-    if (solutionStorage.applicationData != undefined) {        
+    if (solutionStorage.applicationData !== undefined) {        
         solutionStorage.applicationData.FavoriteBands.Band = []; //Reset the array
         $("#numberOfBusinessObjects").prop('innerText', "#Business Objects in memory: 0");
         $("#xmlText").prop('value', '');
@@ -813,7 +817,7 @@ function createFolder() {
     var folderName = $("#folderName").prop('value');
     var isHidden = $("#hiddenFolder").prop('checked');
     
-    if (folderName == "") {
+    if (folderName === "") {
         app.showNotification("Wait!", "You must enter a folder name.");
         return;
     }        
@@ -854,7 +858,7 @@ function retrieveStorage() {
     app.showNotification("Please wait...", "Getting storage...");
 
     var result = solutionStorage.getStorageItem();
-    if (result == 'success') {
+    if (result === 'success') {
         app.showNotification("Storage retrieved!", "BTW: how long have you been sitting at your computer? Get up and stretch!");
         window.location = "#xmlText";
     } else {
@@ -866,20 +870,20 @@ function updateFolder() {
 }
 function updateStorage() {
 
-    if (solutionStorage.applicationData.FavoriteBands == undefined) {
+    if (solutionStorage.applicationData.FavoriteBands === undefined) {
         app.showNotification("Uh-oh!", "There's nothing to store! Try creating some business objects first.");
         window.location("#artistName");
         return;
     }
 
     //NOTE First see if the storage item has been created yet; the id for the message should be stored in RoamingSettings and passed to solutionStorage.solutionStorageMessageID
-    if (solutionStorage.solutionStorageMessageID == undefined) {
+    if (solutionStorage.solutionStorageMessageID === undefined) {
         app.showNotification("Please wait...", "We have to create the storage message first...");
 
-        if (!solutionStorage.settingsLoaded == true) {
+        if (!solutionStorage.settingsLoaded === true) {
     getStorageIds();
         }
-        if (solutionStorage.solutionFolderID == undefined) {
+        if (solutionStorage.solutionFolderID === undefined) {
     app.showNotification("Uh-oh!", "The storage item folder hasn't been created yet. Click the 'Create Folder'  button.");
             return;
         }
