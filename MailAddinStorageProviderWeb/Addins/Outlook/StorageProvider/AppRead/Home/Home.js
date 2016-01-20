@@ -58,10 +58,20 @@ var ewsCallbacks = (function () {
             return 'error';
         }
 
-        if (asyncResult.error !== null) {
-            app.showNotification('Error!', '[in createSolutionStorageFolderCallback]: ' + asyncResult.error.message);
+        if (asyncResult.error !== undefined)
+        {
+            if (asyncResult.error.message !== undefined)
+            {
+                app.showNotification('Error!', '[in createSolutionStorageFolderCallback]: ' + asyncResult.error.message);
+            }
+            else
+            {
+                app.showNotification('Error!', '[in createSolutionStorageFolderCallback]: Unknown');
+            }
+    
             return 'error';
-        } else {
+        }
+        else {
 
             try {
                 var response = $.parseXML(asyncResult.value);
@@ -130,10 +140,20 @@ var ewsCallbacks = (function () {
             result = 'error';
         }
 
-        if (asyncResult.error !== null) {
-            app.showNotification('Error!', '[in createStorageItemCallback]: ' + asyncResult.error.message);
-            result = 'error';
-        } else {
+        if (asyncResult.error !== undefined)
+        {
+            if (asyncResult.error.message !== undefined)
+            {
+                app.showNotification('Error!', '[in createStorageItemCallback]: ' + asyncResult.error.message);
+            }
+            else
+            {
+                app.showNotification('Error!', '[in createStorageItemCallback]: Unknown');
+            }
+    
+            return 'error';
+        }
+        else {
 
             var errorMsg;
             try {
@@ -170,6 +190,7 @@ var ewsCallbacks = (function () {
                                         itemchildNodes = itemsNode.childNodes[i];
                                         solutionStorage.solutionStorageMessageID = itemchildNodes.childNodes.item("Item").getAttribute("Id");
                                         solutionStorage.saveSettings();
+                                        Debug.write("createStorageItemCallback: got folder ID: " + solutionStorage.solutionStorageMessageID);
                                         result = solutionStorage.solutionStorageMessageID;
                                         break;
                                     } catch (e) {
@@ -202,10 +223,20 @@ var ewsCallbacks = (function () {
             return 'error';
         }
 
-        if (asyncResult.error !== null) {
-            app.showNotification('Error!', '[in getStorageItemCallback]: ' + asyncResult.error.message);
+        if (asyncResult.error !== undefined)
+        {
+            if (asyncResult.error.message !== undefined)
+            {
+                app.showNotification('Error!', '[in getStorageItemCallback]: ' + asyncResult.error.message);
+            }
+            else
+            {
+                app.showNotification('Error!', '[in getStorageItemCallback]: Unknown');
+            }
+    
             return 'error';
-        } else {
+        }
+        else {
 
             var errorMsg;
             try {
@@ -273,11 +304,21 @@ var ewsCallbacks = (function () {
             return 'success';        
         }
 
-        if (asyncResult.error !== null) {
-            app.showNotification('Error!', '[in updateFolderCallback]: ' + asyncResult.error.message);
+        if (asyncResult.error !== undefined)
+        {
+            if (asyncResult.error.message !== undefined)
+            {
+                app.showNotification('Error!', '[in updateFolderCallback]: ' + asyncResult.error.message);
+            }
+            else
+            {
+                app.showNotification('Error!', '[in updateFolderCallback]: Unknown');
+            }
+    
             return 'error';
         }
-        else {
+        else
+        {
             var errorMsg;
             try {
                 var response = $.parseXML(asyncResult.value);
@@ -310,8 +351,17 @@ var ewsCallbacks = (function () {
             return 'error';
         }
 
-        if (asyncResult.error !== null) {
-            app.showNotification('Error!', '[in updateItemCallback]: ' + asyncResult.error.message);
+        if (asyncResult.error !== undefined)
+        {
+            if (asyncResult.error.message !== undefined)
+            {
+                app.showNotification('Error!', '[in updateItemCallback]: ' + asyncResult.error.message);
+            }
+            else
+            {
+                app.showNotification('Error!', '[in updateItemCallback]: Unknown');
+            }
+    
             return 'error';
         }
         else {
@@ -326,7 +376,8 @@ var ewsCallbacks = (function () {
                         prop = responseDOM.filterNode("m:ResponseCode")[0];
                     }
 
-                    if (asyncResult.status === "succeeded") {                 
+                    if (asyncResult.status === "succeeded") {
+                        Debug.write("updateItemCallback: success!");                        
                         result = 'success';
                     }
 
@@ -842,6 +893,7 @@ function createFolder() {
     //result = solutionStorage.createSolutionStorage(folderName, isHidden);
     if (result = 'success') {
         app.showNotification("Woo-hoo!", "Folder '" + solutionStorage.solutionFolderName + "' created. Now go ahead and start creating some business objects and then click the 'Update Storage' button to save that data to xml in a message within that folder.");
+        $("#folderID").prop('value', solutionStorage.solutionFolderID);
     }
 }
 function htmlEncode(value)
@@ -891,7 +943,8 @@ function updateStorage() {
         //NOTE Using deferreds: http://learn.jquery.com/code-organization/deferreds/jquery-deferreds/
         $.when(
             solutionStorage.createStorageItem()
-        ).then(function() {    
+        ).then(function () {
+            Debug.write("Not updating storage...");
             app.showNotification("Storage Item created!", "Now one more call to update the storage...");
             solutionStorage.updateStorageItem();
         }).fail(function() {
@@ -903,6 +956,8 @@ function updateStorage() {
         solutionStorage.updateStorageItem();
     }
     app.showNotification("Storage updated!", "P.S.: You look marvelous!");
+    $("messageID").prop('value', solutionStorage.solutionStorageMessageID);
+    $("#folderID").prop('value', solutionStorage.solutionFolderID);
 }
 
 // This function plug in filters nodes for the one that matches the given name.
